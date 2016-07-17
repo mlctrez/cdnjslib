@@ -23,6 +23,15 @@ func (library *LibraryInfo) SaveLocal(dirname string) {
 
 	wg := sync.WaitGroup{}
 
+	msgChan := make(chan string)
+	defer close(msgChan)
+
+	go func(c chan string) {
+		for m := range c {
+			fmt.Println(m)
+		}
+	}(msgChan)
+
 	for _, assetUrl := range library.AssetUrls {
 
 		wg.Add(1)
@@ -37,8 +46,6 @@ func (library *LibraryInfo) SaveLocal(dirname string) {
 			err = os.MkdirAll(path.Dir(localPath), 0755)
 			checkError(err)
 
-			fmt.Println("retrieving", assetUrl.Url.String())
-
 			remotejs, err := http.Get(assetUrl.Url.String())
 			checkError(err)
 			defer remotejs.Body.Close()
@@ -48,6 +55,8 @@ func (library *LibraryInfo) SaveLocal(dirname string) {
 
 			err = ioutil.WriteFile(localPath, content, 0744)
 			checkError(err)
+
+			msgChan <- fmt.Sprint("retrieved ", assetUrl.Url.String())
 
 		}(assetUrl)
 	}
