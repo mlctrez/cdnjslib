@@ -1,0 +1,47 @@
+{
+  "libraries": [
+    {
+      "Name": "twitter-bootstrap",
+      "Version": "3.3.6",
+      "AssetFilters": [
+        ".map"
+      ]
+    },
+    {
+      "Name": "angular.js",
+      "Version": "1.5.5",
+      "AssetFilters": [
+        "angular-locale",
+        ".map"
+      ]
+    },
+    {
+      "Name": "jquery",
+      "Version": "1.12.3",
+      "AssetFilters": [
+        ".map"
+      ]
+    },
+    {
+      "Name": "angular-websocket",
+      "Version": "2.0.0",
+      "AssetFilters": [
+        ".map"
+      ]
+    },
+    {
+      "Name": "json3",
+      "Version": "3.3.2",
+      "AssetFilters": [
+        ".map"
+      ]
+    },
+    {
+      "Name": "epoch",
+      "Version": "0.8.4",
+      "AssetFilters": [
+        ".map"
+      ]
+    }
+  ]
+}
