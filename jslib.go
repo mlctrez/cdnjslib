@@ -1,7 +1,6 @@
 package cdnjslib
 
 import (
-	"bufio"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -9,6 +8,8 @@ import (
 	"net/url"
 	"os"
 	"strings"
+
+	"github.com/mlctrez/httpjson"
 )
 
 func WriteError(writer io.Writer, err error) {
@@ -35,18 +36,13 @@ func ReadFile(filename string, v interface{}) error {
 
 func (library *LibraryInfo) LoadCdnjsData() error {
 
-	jsonUrl := fmt.Sprintf("https://api.cdnjs.com/libraries/%s", library.Name)
-
-	resp, err := http.Get(jsonUrl)
-
-	if err != nil {
-		return err
-	}
-	defer resp.Body.Close()
-
 	library.CdnJsLibrary = &CdnJsLibrary{}
 
-	err = json.NewDecoder(bufio.NewReader(resp.Body)).Decode(library.CdnJsLibrary)
+	jsonUrl := fmt.Sprintf("https://api.cdnjs.com/libraries/%s", library.Name)
+
+	hj := httpjson.NewWithClient(http.DefaultClient)
+
+	err := hj.Get(jsonUrl, library.CdnJsLibrary)
 
 	if err != nil {
 		return err
